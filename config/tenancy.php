@@ -19,7 +19,8 @@ return [
     'central_domains' => [
         '127.0.0.1:8000',
         'localhost',
-        'test.local'
+        'test.local',
+        'api.tenants.801saas.com'
     ],
 
     /**

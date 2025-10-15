@@ -39,7 +39,7 @@ class NetsuiteOauthRepository extends BaseNetsuiteRepository
         try {
             $payload = [
                 'code' => $data['code'],
-                'redirect_uri' => urlencode('https://byu.api.tenant.801saas.com/manage/netsuite/initiate'),
+                'redirect_uri' => urlencode('https://byu.api.tenants.801saas.com/manage/netsuite/initiate'),
                 'grant_type' => 'authorization_code',
                 'code_verifier' => session('code_verifier')
             ];
