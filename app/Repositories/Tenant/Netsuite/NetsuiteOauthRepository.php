@@ -17,7 +17,7 @@ class NetsuiteOauthRepository extends BaseNetsuiteRepository
         $query_params = [
             'response_type' => 'code',
             'client_id' => $this->config['client_id'],
-            'redirect_uri' => urlencode('https://byu.api.tenant.801saas.com/manage/netsuite/initiate'),
+            'redirect_uri' => urlencode('https://byu.api.tenants.801saas.com/manage/netsuite/initiate'),
             'scope' => 'restlets',
             'state' => Str::random(45),
             'code_challenge' => $code_challenge,
