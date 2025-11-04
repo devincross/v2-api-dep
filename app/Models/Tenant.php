@@ -11,7 +11,7 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     use HasDatabase, HasDomains;
 
     CONST INTEGRATION_ZOHO = 'zoho';
-    CONST INTEGRATION_BYU = 'byu';
+    CONST INTEGRATION_NETSUITE = 'netsuite';
 
     protected $fillable = ['id', 'client_id', 'name', 'email', 'integration', 'automated'];
     protected $guarded = ['created_at', 'updated_at'];

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Token extends Model
 {
+    protected $table = 'access_tokens';
     protected $fillable = ['service', 'access_token', 'refresh_token', 'expires_at', 'refresh_expires_at'];
     protected $guarded = ['id', 'created_at', 'updated_at'];
     protected $connection = 'tenant';

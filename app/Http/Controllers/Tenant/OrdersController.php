@@ -139,27 +139,26 @@ class OrdersController extends Controller
             Product::firstOrCreate(['serial_number'=>$serial], ['order_id'=>$order->id, 'serial_number'=>$serial, 'is_dep'=>1, 'dep_status'=>Product::STATUS_COMPLETE]);
         }
 
-        if($request->input('source') == Order::SOURCE_ZOHO) {
-            //pull order from zoho
-            $zOrder = $this->zohoService->getOrder($order->external_order_id);
-            //check to see if they have the same account_id, same products/serials
-            $diff = $this->zohoService->compareOrder($order, $zOrder);
-            if($diff != null) {
-                //need to update things
-                if(isset($diff['account_id'])) {
-                    $order = $this->ordersService->patch($order->id, ['external_account_id'=>$diff['account_id'], 'account_id'=>$account->id]);
+        $connector = $this->ordersService->getConnector($request->input('source'));
+        //pull order from connector
+        $zOrder = $connector->getOrder($order->external_order_id);
+        //check to see if they have the same account_id, same products/serials
+        $diff = $connector->compareOrder($order, $zOrder);
+        if($diff != null) {
+            //need to update things
+            if(isset($diff['account_id'])) {
+                $order = $this->ordersService->patch($order->id, ['external_account_id'=>$diff['account_id'], 'account_id'=>$account->id]);
+            }
+            if(isset($diff['serials'])){
+                if(isset($diff['serials']['new'])) {
+                    $order = $this->ordersService->addProducts($order->id, $diff['serials']['new']);
                 }
-                if(isset($diff['serials'])){
-                    if(isset($diff['serials']['new'])) {
-                        $order = $this->ordersService->addProducts($order->id, $diff['serials']['new']);
-                    }
-                    if(isset($diff['serials']['remove'])) {
-                        $order = $this->ordersService->removeProducts($order->id, $diff['serials']['remove']);
-                    }
+                if(isset($diff['serials']['remove'])) {
+                    $order = $this->ordersService->removeProducts($order->id, $diff['serials']['remove']);
                 }
             }
         }
-        $connector = $this->ordersService->getConnector($request->input('source'));
+
         //pull order from apple
         $dOrder = $this->appleService->getOrder($order->id);
         $aDiff = $this->appleService->compareOrder($order, $dOrder);

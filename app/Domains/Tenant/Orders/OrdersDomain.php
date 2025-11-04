@@ -165,18 +165,9 @@ class OrdersDomain
     }
 
     public function getConnector($type = null){
-        if($type == null) {
-            $integration = tenant('integration');
-            $className = "App\\Services\\Tenant\\{$integration}";
-            return App::make($className);
-        }
-        switch($type) {
-            case Tenant::INTEGRATION_ZOHO:
-                $integration = tenant('integration');
-                $className = "App\\Services\\Tenant\\{$integration}";
-                return App::make($className);
-                break;
-        }
+        $integration = tenant('integration');
+        $className = "App\\Services\\Tenant\\{$integration}";
+        return App::make($className);
     }
 
     public function addProducts(int $order_id, $products) {

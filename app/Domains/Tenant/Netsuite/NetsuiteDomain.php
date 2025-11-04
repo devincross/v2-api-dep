@@ -2,6 +2,7 @@
 
 namespace App\Domains\Tenant\Netsuite;
 
+use App\Exceptions\NetsuiteExpiredToken;
 use App\Models\Credential;
 use App\Repositories\Tenant\Netsuite\NetsuiteAccountRepository;
 use App\Repositories\Tenant\Netsuite\NetsuiteOauthRepository;
@@ -24,19 +25,48 @@ class NetsuiteDomain
         return $this->oauthRepository->generateRedirect();
     }
 
-    public function getOrder(int $order_id) {
-        return $this->orderRepository->getOrder($order_id);
+    public function refresh() {
+        return $this->oauthRepository->refresh();
+    }
+
+    public function getOrder(int $order_id)
+    {
+        try {
+            return $this->orderRepository->getOrder($order_id);
+        } catch (NetsuiteExpiredToken $ex) {
+            //try and refresh
+            $this->refresh();
+            return $this->orderRepository->getOrder($order_id);
+        }
     }
 
     public function getRecentOrders($date) {
-        return $this->orderRepository->recentOrders($date);
+        try {
+            return $this->orderRepository->recentOrders($date);
+        } catch (NetsuiteExpiredToken $ex) {
+            //try and refresh
+            $this->refresh();
+            return $this->orderRepository->recentOrders($date);
+        }
     }
 
     public function updateOrder(int $order_id, $resp, $status) {
-        return $this->orderRepository->update($order_id, $resp, $status);
+        try {
+            return $this->orderRepository->update($order_id, $resp, $status);
+        } catch (NetsuiteExpiredToken $ex) {
+            //try and refresh
+            $this->refresh();
+            return $this->orderRepository->update($order_id, $resp, $status);
+        }
     }
 
     public function getAccounts($date) {
-        return $this->accountRepository->accounts($date);
+        try {
+            return $this->accountRepository->accounts($date);
+        } catch (NetsuiteExpiredToken $ex) {
+            //try and refresh
+            $this->refresh();
+            return $this->accountRepository->accounts($date);
+        }
     }
 }
