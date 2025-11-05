@@ -103,7 +103,7 @@ class NetsuiteOauthRepository extends BaseNetsuiteRepository
                 'refresh_token' => $refresh->refresh_token
             ];
             $basic = base64_encode($this->config['client_id'] . ":" . $this->config['client_secret']);
-            $resp = Http::withHeaders(['Authorization' => "Basic {$basic}"])
+            $resp = Http::withHeaders(['Authorization' => "Basic {$basic}", 'Content-Type'=> 'application/x-www-form-urlencoded'])
                 ->post("https://{$this->config['netsuite_account']}.suitetalk.api.netsuite.com/services/rest/auth/oauth2/v1/token", $payload)
                 ->throw()
                 ->json();
