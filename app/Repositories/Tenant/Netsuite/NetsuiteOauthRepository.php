@@ -62,10 +62,11 @@ class NetsuiteOauthRepository extends BaseNetsuiteRepository
                 'code' => $data['code'],
                 'redirect_uri' => 'https://byu.api.tenants.801saas.com/setup/netsuite/callback',
                 'grant_type' => 'authorization_code',
-                'code_verifier' => $verifier
+                'code_verifier' => trim($verifier)
             ];
             $basic = base64_encode($this->config['client_id'].":".$this->config['client_secret']);
             $resp = Http::withHeaders(['Authorization'=> "Basic {$basic}", 'Content-Type'=> 'application/x-www-form-urlencoded'])
+                ->asForm()
                 ->post("https://{$this->config['netsuite_account']}.suitetalk.api.netsuite.com/services/rest/auth/oauth2/v1/token", $payload)
                 ->throw()
                 ->json();
@@ -104,6 +105,7 @@ class NetsuiteOauthRepository extends BaseNetsuiteRepository
             ];
             $basic = base64_encode($this->config['client_id'] . ":" . $this->config['client_secret']);
             $resp = Http::withHeaders(['Authorization' => "Basic {$basic}", 'Content-Type'=> 'application/x-www-form-urlencoded'])
+                ->asForm()
                 ->post("https://{$this->config['netsuite_account']}.suitetalk.api.netsuite.com/services/rest/auth/oauth2/v1/token", $payload)
                 ->throw()
                 ->json();
