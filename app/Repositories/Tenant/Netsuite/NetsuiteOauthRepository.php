@@ -71,6 +71,7 @@ class NetsuiteOauthRepository extends BaseNetsuiteRepository
                 ->throw()
                 ->json();
 
+            Log::info("Token resp", $resp);
             //setup
             $token = Token::create(
                 [
