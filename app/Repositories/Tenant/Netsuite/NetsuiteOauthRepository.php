@@ -78,7 +78,7 @@ class NetsuiteOauthRepository extends BaseNetsuiteRepository
                     'service' =>'netsuite',
                     'access_token' => $resp['access_token'],
                     'refresh_token' => $resp['refresh_token'],
-                    'expires_at'=> Carbon::now()->addSeconds($resp['expires_in'])
+                    'expires_at'=> Carbon::now()->addSeconds((int)$resp['expires_in'])
                 ]
             );
             return $token;
