@@ -14,8 +14,8 @@ class Token extends Model
 
     public function casts() {
         return [
-            'expires_at' => 'Date',
-            'refresh_expires_at' => 'Date'
+            'expires_at' => 'datetime',
+            'refresh_expires_at' => 'datetime'
         ];
     }
 }
