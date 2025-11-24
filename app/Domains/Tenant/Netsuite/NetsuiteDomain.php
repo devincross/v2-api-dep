@@ -7,6 +7,7 @@ use App\Models\Credential;
 use App\Repositories\Tenant\Netsuite\NetsuiteAccountRepository;
 use App\Repositories\Tenant\Netsuite\NetsuiteOauthRepository;
 use App\Repositories\Tenant\Netsuite\NetsuiteOrderRepository;
+use GuzzleHttp\Exception\RequestException;
 
 
 class NetsuiteDomain
@@ -33,7 +34,7 @@ class NetsuiteDomain
     {
         try {
             return $this->orderRepository->getOrder($order_id);
-        } catch (NetsuiteExpiredToken $ex) {
+        } catch (RequestException $ex) {
             //try and refresh
             $this->refresh();
             return $this->orderRepository->getOrder($order_id);
@@ -43,7 +44,7 @@ class NetsuiteDomain
     public function getRecentOrders($date) {
         try {
             return $this->orderRepository->recentOrders($date);
-        } catch (NetsuiteExpiredToken $ex) {
+        } catch (RequestException $ex) {
             //try and refresh
             $this->refresh();
             return $this->orderRepository->recentOrders($date);
@@ -53,7 +54,7 @@ class NetsuiteDomain
     public function updateOrder(int $order_id, $resp, $status) {
         try {
             return $this->orderRepository->update($order_id, $resp, $status);
-        } catch (NetsuiteExpiredToken $ex) {
+        } catch (RequestException $ex) {
             //try and refresh
             $this->refresh();
             return $this->orderRepository->update($order_id, $resp, $status);
@@ -63,7 +64,7 @@ class NetsuiteDomain
     public function getAccounts($date) {
         try {
             return $this->accountRepository->accounts($date);
-        } catch (NetsuiteExpiredToken $ex) {
+        } catch (RequestException $ex) {
             //try and refresh
             $this->refresh();
             return $this->accountRepository->accounts($date);
