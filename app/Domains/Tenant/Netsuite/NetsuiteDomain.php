@@ -7,7 +7,7 @@ use App\Models\Credential;
 use App\Repositories\Tenant\Netsuite\NetsuiteAccountRepository;
 use App\Repositories\Tenant\Netsuite\NetsuiteOauthRepository;
 use App\Repositories\Tenant\Netsuite\NetsuiteOrderRepository;
-use GuzzleHttp\Exception\RequestException;
+use Illuminate\Http\Client\RequestException;
 
 
 class NetsuiteDomain
