@@ -27,7 +27,6 @@ class OrdersController extends Controller
         $this->ordersService = $ordersService;
         $this->zohoService = $zohoService;
         $this->appleService = $appleService;
-        $this->middleware('auth:api');
     }
 
     public function getOrderLogs(Request $request, $order_id) {
