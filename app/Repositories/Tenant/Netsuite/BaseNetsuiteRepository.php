@@ -27,7 +27,7 @@ abstract class BaseNetsuiteRepository
         }
     }
 
-    private function init($requestParams) {
+    private function init() {
         $this->loadConfig();
 
         $now = Carbon::now();
