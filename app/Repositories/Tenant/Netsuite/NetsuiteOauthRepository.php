@@ -65,11 +65,13 @@ class NetsuiteOauthRepository extends BaseNetsuiteRepository
                 'code_verifier' => trim($verifier)
             ];
             $basic = base64_encode($this->config['client_id'].":".$this->config['client_secret']);
-            $resp = Http::withHeaders(['Authorization'=> "Basic {$basic}", 'Content-Type'=> 'application/x-www-form-urlencoded'])
-                ->asForm()
-                ->post("https://{$this->config['netsuite_account']}.suitetalk.api.netsuite.com/services/rest/auth/oauth2/v1/token", $payload)
-                ->throw()
-                ->json();
+//            $resp = Http::withHeaders(['Authorization'=> "Basic {$basic}", 'Content-Type'=> 'application/x-www-form-urlencoded'])
+//                ->asForm()
+//                ->post("https://{$this->config['netsuite_account']}.suitetalk.api.netsuite.com/services/rest/auth/oauth2/v1/token", $payload)
+//                ->throw()
+//                ->json();
+
+            $resp = ['access_token'=>'asdasdasd', 'refresh_token'=>'asdaaddsa', 'expires_in' => 34];
 
             Log::info("Token resp", $resp);
             //setup
@@ -81,7 +83,7 @@ class NetsuiteOauthRepository extends BaseNetsuiteRepository
                     'expires_at'=> Carbon::now()->addSeconds((int)$resp['expires_in'])
                 ]
             );
-            return $token;
+            return $token->toArray();
 
         } catch (\Exception $ex) {
             // Handle errors
