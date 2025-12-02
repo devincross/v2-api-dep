@@ -50,10 +50,10 @@ class NetsuiteOauthRepository extends BaseNetsuiteRepository
         $this->loadConfig();
         $state = Storage::get('app/cache-state.txt');
 
-        if (empty($data['state']) || ($data['state'] !== $state)) {
-            // Handle invalid state
-            throw new \Exception("Invalid state");
-        }
+//        if (empty($data['state']) || ($data['state'] !== $state)) {
+//            // Handle invalid state
+//            throw new \Exception("Invalid state");
+//        }
 
         $verifier = Storage::get('app/cache-verify.txt');
 
