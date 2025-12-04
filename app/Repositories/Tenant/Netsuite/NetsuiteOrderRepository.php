@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Tenant\Netsuite;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 
 class NetsuiteOrderRepository extends BaseNetsuiteRepository
@@ -16,7 +17,7 @@ class NetsuiteOrderRepository extends BaseNetsuiteRepository
         foreach($orders as $order) {
             $resp[] = $map->getOrder($order);
         }
-        return $resp;
+        return Collection::make($resp);
     }
 
     public function getOrder($order_id) {
