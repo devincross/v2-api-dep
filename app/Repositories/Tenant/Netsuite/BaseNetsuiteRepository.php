@@ -32,7 +32,7 @@ abstract class BaseNetsuiteRepository
 
         $now = Carbon::now();
         try {
-            $token = Token::where('expires_at', '<', $now)->firstOrFail();
+            $token = Token::where('expires_at', '>', $now)->firstOrFail();
             $this->access_token = $token->access_token;
         } catch (ModelNotFoundException $ex) {
             throw new NetsuiteExpiredToken("Access token has expired");
