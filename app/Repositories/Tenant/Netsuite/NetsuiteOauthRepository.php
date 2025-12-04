@@ -99,7 +99,7 @@ class NetsuiteOauthRepository extends BaseNetsuiteRepository
         $now = Carbon::now()->subWeek();
         try {
             //get the most recent but still account for the week before refresh fails
-            $refresh = Token::where('expires_at', '<', $now)->orderBy('id', 'desc')->firstOrFail();
+            $refresh = Token::orderBy('id', 'desc')->firstOrFail();
             $payload = [
                 'grant_type' => 'refresh_token',
                 'refresh_token' => $refresh->refresh_token
@@ -110,14 +110,19 @@ class NetsuiteOauthRepository extends BaseNetsuiteRepository
                 ->post("https://{$this->config['netsuite_account']}.suitetalk.api.netsuite.com/services/rest/auth/oauth2/v1/token", $payload)
                 ->throw()
                 ->json();
-            $token = Token::create(
-                [
-                    'service' =>'netsuite',
-                    'access_token' => $resp['access_token'],
-                    'refresh_token' => $resp['refresh_token'],
-                    'expires_at'=> Carbon::now()->addSeconds($resp['expires_in'])
-                ]
-            );
+            //they don't give you a new refresh token - so just update access
+            $refresh->update([
+                'access_token' => $resp['access_token'],
+                'expires_at'=> Carbon::now()->addSeconds($resp['expires_in'])
+            ]);
+//            $token = Token::create(
+//                [
+//                    'service' =>'netsuite',
+//                    'access_token' => $resp['access_token'],
+//                    'refresh_token' => $resp['refresh_token'],
+//                    'expires_at'=> Carbon::now()->addSeconds($resp['expires_in'])
+//                ]
+//            );
             return $resp['access_token'];
         } catch (ModelNotFoundException $ex) {
             //try loading the most recent and see if it will work
