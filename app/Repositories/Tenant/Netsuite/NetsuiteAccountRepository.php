@@ -9,7 +9,7 @@ class NetsuiteAccountRepository extends BaseNetsuiteRepository
     public function accounts($date) {
         $this->loadConfig();
 
-        $url = "https://{$this->config['netsuite_account']}.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script={$this->config['netsuite_account_script_id']}&deploy{$this->config['netsuite_deploy_id']}&last_modified=trim($date)";
+        $url = "https://{$this->config['netsuite_account']}.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script={$this->config['netsuite_account_script_id']}&deploy={$this->config['netsuite_deploy_id']}&last_modified=".urlencode(trim($date));
 
         $data = $this->get($url);
 
