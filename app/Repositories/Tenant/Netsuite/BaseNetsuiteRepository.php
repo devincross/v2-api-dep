@@ -43,9 +43,9 @@ abstract class BaseNetsuiteRepository
         $this->init();
 
         return Http::withHeaders([
-            'Authorization: Bearer ' . $this->access_token,
-            'Content-Type: application/json',
-            'Accept: application/json'
+            "Authorization" => 'Bearer ' . $this->access_token,
+            "Content-Type" => 'application/json',
+            "Accept" =>  'application/json'
         ])
             ->throw()
             ->post($url, $data)
@@ -56,9 +56,9 @@ abstract class BaseNetsuiteRepository
         $this->init();
 
         return Http::withHeaders([
-            'Authorization: Bearer ' . $this->access_token,
-            'Content-Type: application/json',
-            'Accept: application/json'
+            "Authorization" => 'Bearer ' . $this->access_token,
+            "Content-Type" => 'application/json',
+            "Accept" =>  'application/json'
         ])
             ->throw()
             ->get($url)
@@ -70,9 +70,9 @@ abstract class BaseNetsuiteRepository
         $this->init();
 
         return Http::withHeaders([
-            'Authorization: Bearer ' . $this->access_token,
-            'Content-Type: application/json',
-            'Accept: application/json'
+            "Authorization" => 'Bearer ' . $this->access_token,
+            "Content-Type" => 'application/json',
+            "Accept" =>  'application/json'
         ])
             ->throw()
             ->put($url, $data)
