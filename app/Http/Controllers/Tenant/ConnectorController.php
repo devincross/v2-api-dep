@@ -30,7 +30,7 @@ class ConnectorController extends Controller
     {
         try {
             $service = $this->getConnector();
-            $resp = $service->getOrders(date("Y-m-d\TH:i:s\Z", strtotime("-1 Day")));
+            $resp = $service->getOrders(date("Y-m-d\TH:i:s\Z", strtotime("-40 Days")));
             return response()->json(['status' => 'success', 'results' => $resp]);
         } catch (InputValidationException $ex) {
             return response()->json([
