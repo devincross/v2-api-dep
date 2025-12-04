@@ -113,7 +113,7 @@ class NetsuiteOauthRepository extends BaseNetsuiteRepository
             //they don't give you a new refresh token - so just update access
             $refresh->update([
                 'access_token' => $resp['access_token'],
-                'expires_at'=> Carbon::now()->addSeconds($resp['expires_in'])
+                'expires_at'=> Carbon::now()->addSeconds((int)$resp['expires_in'])
             ]);
 //            $token = Token::create(
 //                [
